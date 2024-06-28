@@ -1,7 +1,8 @@
 import { RecipeModel } from "../models/recipe.js";
 
 // Get all recipes
-export const getRecipes = async (req, res, next) => {
+// next is used to check errors
+export const getRecipes = async (req, res, next) => {   
     // Get all recipes fron Database
     const allRecipes = await RecipeModel.find();
     // Retuen all recipes as response
