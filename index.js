@@ -1,33 +1,31 @@
 import express from "express";
 import mongoose from "mongoose";
+import expressOasGenerator from "express-oas-generator"
 import recipeRouter from "./routes/recipe.js";
 import categoryRouter from "./routes/category_route.js";
 
 // connect to database
 await mongoose.connect(process.env.MONGO_URL);
 
-// Create Express App
+// Create Express App and expressOasGenerator for documenting the API
 const app = express();
+expressOasGenerator.handleResponses(app, {
+    tags: ['categories', 'recipes'],
+    mongooseModels: mongoose.modelNames(),
+});
 
 // apply middlewares
 app.use(express.json());
 
-// // Define routes
-// app.get('/', (req, res) => {
-//     res.json('welcome home');
-// });
-
-// app.post('/login', (req, res) => {
-//     res.json('login successful');
-// }); 
-
-// app.patch('/add', (req, res) => {
-//     res.json('middle name added');
-// }); 
 
 // Use routes
 app.use(recipeRouter);
 app.use(categoryRouter);
+expressOasGenerator.handleRequests();
+app.use((req, res) => res.redirect('/api-docs/'));
+
+
+
 
 // listen for incoming requests
 const port = process.env.PORT || 3000;

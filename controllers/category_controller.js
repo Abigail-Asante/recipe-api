@@ -24,3 +24,4 @@ export const postCategory = async (req, res, next) => {
         
     }
 };
+
