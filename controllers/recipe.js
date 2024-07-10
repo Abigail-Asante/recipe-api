@@ -3,11 +3,14 @@ import { localUpload } from "../middlewares/upload.js";
 
 // Get all recipes
 // next is used to check errors
-export const getRecipes = async (req, res, next) => {   
+export const getRecipes = async (req, res, next) => {
     // Get query params
-    const {limit, skip, search} = req.query;
+    const { limit, skip, filter } = req.query;
     // Get all recipes fron Database
-    const allRecipes = await RecipeModel.find({name: search}).limit(limit).skip(skip);
+    const allRecipes = await RecipeModel
+        .find({ filter })
+        .limit(limit)
+        .skip(skip);
     // Retuen all recipes as response
     res.json(allRecipes);
 }
@@ -21,7 +24,7 @@ export const getRecipe = (req, res) => {
 export const postRecipes = async (req, res, next) => {
     try {
         // Add recipe to database
-        const newRecipe = await RecipeModel.create({...req.body, image: req.file.filename});
+        const newRecipe = await RecipeModel.create({ ...req.body, image: req.file.filename });
         // Return response
         res.json(newRecipe)
     } catch (error) {
@@ -32,14 +35,14 @@ export const postRecipes = async (req, res, next) => {
 export const patchRecipe = async (req, res, next) => {
     try {
         // update recipe by id
-        const updateRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        const updateRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
         // Return response
         res.json(updateRecipe)
     } catch (error) {
         next(error)
-        
+
     }
-    
+
 };
 
 // delete recipe

@@ -5,10 +5,12 @@ import { postRecipes } from "../controllers/recipe.js";
 import { patchRecipe } from "../controllers/recipe.js";
 import { deleteRecipe } from "../controllers/recipe.js";
 import { getRecipe } from "../controllers/recipe.js";
+import { checkUserSession } from "../middlewares/auth.js";
 
 
 // create a router
 const recipeRouter = Router();
+
 
 try {
     // Define routes
@@ -20,11 +22,11 @@ try {
 
 recipeRouter.get('/recipes/:id', getRecipe);
 
-recipeRouter.post('/recipes', localUpload.single('image'), postRecipes);
+recipeRouter.post('/recipes', checkUserSession, localUpload.single('image'), postRecipes);
 
-recipeRouter.patch('/recipes/:id', patchRecipe)
+recipeRouter.patch('/recipes/:id', checkUserSession, patchRecipe)
 
-recipeRouter.delete('/recipes/:id', deleteRecipe)
+recipeRouter.delete('/recipes/:id', checkUserSession, deleteRecipe)
 
 
 // Export Router
