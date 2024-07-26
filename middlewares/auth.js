@@ -18,6 +18,6 @@ export const checkUserSession = (req, res, next) => {
         }
     }
     else {
-        res.status(401).json('user not authenticated')
+        res.status(401).json('user not authenticated now')
     }
 }

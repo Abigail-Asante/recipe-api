@@ -42,7 +42,7 @@ export const postCategory = async (req, res, next) => {
 
         // return response
         res.status(201).json({
-            message: "category added successfully",
+            message: "category added successfully now",
             category: newCategory
         });
     } catch (error) {
